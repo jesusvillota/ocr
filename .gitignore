@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# User conversion outputs (source PDFs + results)
+papers/*
+
+# Keep the papers/ dir itself tracked
+!papers/.gitkeep
+
+# marker model cache
+~/.cache/torch/
