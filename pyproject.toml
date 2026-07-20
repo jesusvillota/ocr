@@ -1,9 +1,18 @@
+[build-system]
+requires = ["uv_build>=0.8.14,<0.9"]
+build-backend = "uv_build"
+
 [project]
-name = "ocr"
+name = "paper-ocr"
 version = "0.1.0"
 description = "Convert a PDF paper to markdown + figures + tables."
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.12,<3.13"
 dependencies = ["marker-pdf"]
 
-[tool.uv]
-package = false
+[project.scripts]
+ocr = "paper_ocr.cli:main"
+
+[project.urls]
+Repository = "https://github.com/jesusvillota/ocr"

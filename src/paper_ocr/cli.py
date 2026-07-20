@@ -20,7 +20,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-VENV_MARKER = Path(__file__).parent / ".venv" / "bin" / "marker_single"
 IMG_RE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 # A markdown table separator row: |---|:--:|---| etc., pipes between cells, edge pipes optional.
 # ponytail: regex parser, not a full MD AST — fine because the separator row is the unambiguous
@@ -30,12 +29,13 @@ ROW_RE = re.compile(r"^\s*\|?.*\|.*\|?\s*$")  # a line with at least 2 pipes-ish
 
 
 def find_marker() -> str:
-    if VENV_MARKER.exists():
-        return str(VENV_MARKER)
+    candidate = Path(sys.executable).parent / "marker_single"
+    if candidate.exists():
+        return str(candidate)
     found = shutil.which("marker_single")
     if found:
         return found
-    sys.exit("error: marker_single not found. Run: uv venv --python 3.12 && uv pip install marker-pdf")
+    sys.exit("error: marker_single not found. Install marker-pdf in this environment.")
 
 
 def run_marker(pdf: Path, staging: Path, force_ocr: bool, use_llm: bool, pages: str | None, env: dict[str, str]) -> None:

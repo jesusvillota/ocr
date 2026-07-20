@@ -8,19 +8,18 @@ Convert a PDF paper into three parts:
 
 Powered by [marker](https://github.com/datalab-to/marker) (state-of-the-art PDF → markdown). Runs locally on Apple Silicon (MPS) or CUDA; no GPU required.
 
-## Setup
+## Development setup
 
 Requires [uv](https://docs.astral.sh/uv/) and ~2 GB of disk for the model weights (downloaded automatically on first run).
 
 ```bash
-uv venv --python 3.12
-uv pip install marker-pdf
+uv sync
 ```
 
 ## Usage
 
 ```bash
-.venv/bin/python ocr.py path/to/paper.pdf
+uv run ocr path/to/paper.pdf
 ```
 
 Output lands in `papers/<paper-stem>/`:
@@ -39,7 +38,7 @@ papers/paper/
 ### Options
 
 ```bash
-python ocr.py <input.pdf> [--out papers] [--use-llm] [--force-ocr] [--pages 0,5-10] [--name custom]
+ocr <input.pdf> [--out papers] [--use-llm] [--force-ocr] [--pages 0,5-10] [--name custom]
 ```
 
 - `--out` — output root (default `papers`).
@@ -50,9 +49,36 @@ python ocr.py <input.pdf> [--out papers] [--use-llm] [--force-ocr] [--pages 0,5-
 
 Block equations are converted to LaTeX (`$$…$$`) regardless of this flag; `--force-ocr` additionally converts inline math to `$…$`.
 
+## Use from another repository
+
+Add a local checkout during development:
+
+```bash
+uv add --editable ../ocr
+```
+
+After pushing this repository, add it directly from GitHub:
+
+```bash
+uv add "paper-ocr @ git+https://github.com/jesusvillota/ocr.git"
+```
+
+Then run it from the consuming project:
+
+```bash
+uv run ocr path/to/paper.pdf
+```
+
+For non-uv environments:
+
+```bash
+pip install "paper-ocr @ git+https://github.com/jesusvillota/ocr.git"
+ocr path/to/paper.pdf
+```
+
 ## Example
 
-See `examples/` for a converted paper (output only, no source PDF). Run the same on your own PDF with the one-liner above.
+See `examples/` for a converted paper (output only, no source PDF). Run the same on your own PDF with the command above.
 
 ## License
 
